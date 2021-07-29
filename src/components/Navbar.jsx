@@ -1,21 +1,28 @@
-import React, { useState } from 'react'
+import React from 'react'
 import clsx from 'clsx';
-import { Button,ListItem, InputBase, IconButton, Typography, Toolbar, AppBar, CssBaseline, MenuItem, Menu } from '@material-ui/core';
+import { InputBase, IconButton, Typography, Toolbar, AppBar, CssBaseline, MenuItem, Menu } from '@material-ui/core';
 
 import { AccountCircle, Search } from '@material-ui/icons';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import Sidebar from './Sidebar';
 import useStyles from '../style/Navbar';
-import ModalLogin from './ModalLogin';
 import DialogLogin from './DialogLogin';
+import { useDispatch, useSelector } from 'react-redux';
+import { cerrarSesion } from '../redux/usuario';
+import { withRouter } from 'react-router-dom';
 
-const Navbar = () => {
+const Navbar = (props) => {
+    const dispatch = useDispatch()
+    const cierreSesion = () => {
+        dispatch(cerrarSesion())
+        props.history.push()
+    }
+    const activo = useSelector(store => store.usuario.activo)
+
     const classes = useStyles();
-    const [open, setOpen] = React.useState(false);
 
     const handleDrawerOpen = () => {
-        setOpen(true);
+        props.setOpen(true);
     };
 
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,16 +36,14 @@ const Navbar = () => {
         setAnchorEl(null);
     };
 
-    //prueba de inicio de sesion
-    const [si,setSi] = useState(true)
-    
+
     return (
-        <div className={classes.root}>
+        <>
             <CssBaseline />
             <AppBar color='secondary'
                 position="fixed"
                 className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
+                    [classes.appBarShift]: props.open,
                 })}
             >
                 <Toolbar>
@@ -48,7 +53,7 @@ const Navbar = () => {
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
                         edge="start"
-                        className={clsx(classes.menuButton, open && classes.hide)}
+                        className={clsx(classes.menuButton, props.open && classes.hide)}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -70,8 +75,8 @@ const Navbar = () => {
                         />
                     </div>
                     {
-                        si === true ? (
-                            <DialogLogin/>
+                        activo !== true ? (
+                            <DialogLogin />
                         ) : (
                             <div >
                                 {/* UserIcon */}
@@ -102,25 +107,16 @@ const Navbar = () => {
                                 >
                                     <MenuItem onClick={handleClose}>Perfil</MenuItem>
                                     <MenuItem onClick={handleClose}>Mi cuenta</MenuItem>
+                                    <MenuItem onClick={()=>cierreSesion()}>Cerrar sesion</MenuItem>
                                 </Menu>
                             </div>
                         )
                     }
                 </Toolbar>
             </AppBar>
-
-            <Sidebar open={open} setOpen={setOpen} />
-
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open,
-                })}
-            >
-                <div className={classes.drawerHeader} />
-                Componentes
-            </main>
-        </div >
+ 
+        </>
     )
 }
 
-export default Navbar
+export default withRouter(Navbar)

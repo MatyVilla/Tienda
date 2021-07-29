@@ -1,8 +1,6 @@
 import React from 'react'
 import { Button, ListItem } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
-import { blue } from '@material-ui/core/colors';
 import LoginDialog from './LoginDialog';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import RegistrarDialog from './RegistrarDialog';
@@ -20,12 +18,10 @@ function SimpleDialog(props) {
 
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-           
-                <Switch>
-                <Route path='/login' component={LoginDialog}/>
-                <Route path='/register' component={RegistrarDialog}/>
-                </Switch>
-            
+            <Switch>
+                <Route path='/login' component={LoginDialog} />
+                <Route path='/register' component={RegistrarDialog} />
+            </Switch>
         </Dialog>
     );
 }
@@ -48,14 +44,14 @@ const DialogLogin = () => {
 
     return (
         <>
-        <Router>
-            <Button variant="text" color="inherit">
-                <ListItem to='/login' component={Link}  onClick={handleClickOpen} button variant='text' color="inherit">
-                    Login
-                </ListItem>
-            </Button>
-            <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
-        </Router>
+            <Router>
+                <Button variant="text" color="inherit">
+                    <ListItem to='/login' component={Link} onClick={handleClickOpen} button variant='text' color="inherit">
+                        Login
+                    </ListItem>
+                </Button>
+                <SimpleDialog selectedValue={selectedValue} open={open} onClose={handleClose} />
+            </Router>
         </>
     )
 }

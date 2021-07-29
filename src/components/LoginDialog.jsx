@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { ingresarUsuarioGoogle } from '../redux/usuario';
+import { withRouter } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 
 function Copyright() {
     return (
@@ -46,9 +49,12 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const LoginDialog = () => {
-
+const LoginDialog = (props) => {
+    //inicializar estilos
     const classes = useStyles();
+    const dispatch = useDispatch()
+
+   
 
     return (
         <Container component="main" maxWidth="xs">
@@ -88,18 +94,19 @@ const LoginDialog = () => {
                         label="Remember me"
                     />
                     <Button
-                        type="submit"
+                        type="button"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
+                        onClick={()=>dispatch(ingresarUsuarioGoogle())}
                     >
                         Iniciar sesion
                     </Button>
                     <Grid container>
                         <Grid item xs>
                             <Link to='#' variant="body2">
-                            ¿Se te olvidó tu contraseña?
+                                ¿Se te olvidó tu contraseña?
                             </Link>
                         </Grid>
                         <Grid item>
@@ -117,4 +124,4 @@ const LoginDialog = () => {
     )
 }
 
-export default LoginDialog
+export default withRouter(LoginDialog)
