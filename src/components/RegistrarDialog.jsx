@@ -12,6 +12,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useDispatch } from 'react-redux';
+import { useState } from 'react';
+import { RegistrarUsuario } from '../redux/usuario';
 
 function Copyright() {
     return (
@@ -48,6 +51,32 @@ const useStyles = makeStyles((theme) => ({
 
 const RegistrarDialog = () => {
     const classes = useStyles();
+    const [email, setEmail] = useState('')
+    const [pass, setPass] = useState('')
+    const [nombre, setNombre] = useState('')
+    const [apellido, setApellido] = useState('')
+    const dispatch = useDispatch()
+    const procesarDatos = e => {
+        e.preventDefault()
+        if (!nombre.trim()) {
+            console.log('ingrese nombre')
+            return
+        }
+        if (!apellido.trim()) {
+            console.log('ingrese apellido')
+            return
+        }
+        if (!pass.trim()) {
+            console.log('ingrese contrasena')
+            return
+        }
+        if (!email.trim()) {
+            console.log('ingrese email')
+            return
+        }
+        dispatch(RegistrarUsuario(email, pass, nombre, apellido))
+    }
+
     return (
         <Container component="main" maxWidth="xs">
             <CssBaseline />
@@ -56,9 +85,9 @@ const RegistrarDialog = () => {
                     <LockOutlinedIcon />
                 </Avatar>
                 <Typography component="h1" variant="h5">
-                Regístrate
+                    Regístrate
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} noValidate onSubmit={procesarDatos}>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <TextField
@@ -70,6 +99,8 @@ const RegistrarDialog = () => {
                                 id="nombre"
                                 label="Nombre"
                                 autoFocus
+                                value={nombre}
+                                onChange={e => setNombre(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -81,6 +112,8 @@ const RegistrarDialog = () => {
                                 label="Apellido"
                                 name="apellido"
                                 autoComplete="lname"
+                                value={apellido}
+                                onChange={e => setApellido(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -92,6 +125,8 @@ const RegistrarDialog = () => {
                                 label="Correo electrónico"
                                 name="email"
                                 autoComplete="email"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -104,6 +139,8 @@ const RegistrarDialog = () => {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                value={pass}
+                                onChange={e => setPass(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12}>

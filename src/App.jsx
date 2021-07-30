@@ -26,7 +26,7 @@ function App() {
           >
             <div className={classes.drawerHeader} />
             <Switch>
-              <Route component={example} to='/example' exact/>
+              <Route component={example} to='/' exact/>
             </Switch>
           </main>
         </div>

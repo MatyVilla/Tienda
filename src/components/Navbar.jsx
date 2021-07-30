@@ -9,7 +9,7 @@ import useStyles from '../style/Navbar';
 import DialogLogin from './DialogLogin';
 import { useDispatch, useSelector } from 'react-redux';
 import { cerrarSesion } from '../redux/usuario';
-import { withRouter } from 'react-router-dom';
+import {  withRouter } from 'react-router-dom';
 
 const Navbar = (props) => {
     const dispatch = useDispatch()
@@ -18,7 +18,6 @@ const Navbar = (props) => {
         props.history.push()
     }
     const activo = useSelector(store => store.usuario.activo)
-
     const classes = useStyles();
 
     const handleDrawerOpen = () => {
@@ -58,7 +57,7 @@ const Navbar = (props) => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap className={classes.grow}>
-                        Tienda
+                        Tiendita
                     </Typography>
                     {/* Buscador */}
                     <div className={classes.search}>
