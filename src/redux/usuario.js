@@ -38,6 +38,7 @@ export const IniciarSesion = (props, email, pass) => async (dispatch) => {
         const res = await auth.signInWithEmailAndPassword(email, pass)
         /* props.history.push('/') */
         const usuarioDB = await db.collection('usuario').doc(res.user.email).get()
+
         dispatch({
             type: USUARIO_EXITO,
             payload: usuarioDB.data()
@@ -63,6 +64,10 @@ export const RegistrarUsuario = (email, pass, nombre, apellido) => async (dispat
             nombre: nombre,
             apellido: apellido
         }
+        if(res.user.emailVerified ===false){
+            await app.auth().currentUser.sendEmailVerification()
+        }
+        console.log(res.user)
         dispatch({
             type: USUARIO_EXITO,
             payload: usuario
