@@ -29,6 +29,51 @@ export default function usuarioReducer(state = dataInicial, action) {
 }
 
 //accion
+// Iniciar sesion con correo y contrasena
+export const IniciarSesion = (props, email, pass) => async (dispatch) => {
+    dispatch({
+        type: LOADING
+    })
+    try {
+        const res = await auth.signInWithEmailAndPassword(email, pass)
+        /* props.history.push('/') */
+        const usuarioDB = await db.collection('usuario').doc(res.user.email).get()
+        dispatch({
+            type: USUARIO_EXITO,
+            payload: usuarioDB.data()
+        })
+        localStorage.setItem('usuario', JSON.stringify(usuarioDB.data()))
+        console.log(res)
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+// Registrar usuario con correo y contrasena
+export const RegistrarUsuario = (email, pass, nombre, apellido) => async (dispatch) => {
+    dispatch({
+        type: LOADING
+    })
+    try {
+        const res = await auth.createUserWithEmailAndPassword(email, pass)
+        const usuario = {
+            uid: res.user.uid,
+            email: res.user.email,
+            nombre: nombre,
+            apellido: apellido
+        }
+        dispatch({
+            type: USUARIO_EXITO,
+            payload: usuario
+        })
+        localStorage.setItem('usuario', JSON.stringify(usuario))
+        await db.collection('usuario').doc(res.user.email).set(usuario)
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 // iniciar sesion con cuenta de google
 export const ingresarUsuarioGoogle = () => async (dispatch) => {
     dispatch({
@@ -41,7 +86,7 @@ export const ingresarUsuarioGoogle = () => async (dispatch) => {
         const usuario = {
             uid: res.user.uid,
             email: res.user.email,
-            displayName: res.user.displayName,
+            nombre: res.user.displayName,
             img: res.user.photoURL
         }
         const usuarioDB = await db.collection('usuario').doc(usuario.email).get()
@@ -67,6 +112,20 @@ export const ingresarUsuarioGoogle = () => async (dispatch) => {
         dispatch({
             type: USUARIO_ERROR
         })
+    }
+}
+
+export const IngresarUsuarioFacebook = () => (dispatch) => {
+    /* dispatch({
+        type: USUARIO_EXITO
+    }) */
+    try {
+        const provider = new app.auth.FacebookAuthProvider()
+        const res = auth.signInWithRedirect(provider)
+        console.log(res)
+
+    } catch (error) {
+        console.log(error)
     }
 }
 // verificar que el usuario tenga la sesion activa
