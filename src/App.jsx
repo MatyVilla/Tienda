@@ -7,6 +7,7 @@ import Sidebar from "./components/Sidebar";
 import useStyles from "./style/Navbar";
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import example from "./components/Example";
+import Carrusel from "./components/Carrusel";
 
 function App() {
   const classes = useStyles()
@@ -28,6 +29,7 @@ function App() {
             </Switch>
           </main>
         </div>
+        <Carrusel/>
       </ThemeProvider> 
     </Router>
   );
