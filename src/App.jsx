@@ -8,7 +8,8 @@ import useStyles from "./style/Navbar";
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 import example from "./components/Example";
 import Carrusel from "./components/Carrusel";
-import GridProductos from "./components/GridProductos"
+import GridCategorias from "./components/GridCategorias"
+
 
 function App() {
   const classes = useStyles()
@@ -31,7 +32,8 @@ function App() {
           </main>
         </div>
         <Carrusel/>
-        <GridProductos/>
+        <GridCategorias/>
+
       </ThemeProvider> 
     </Router>
   );
