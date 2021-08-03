@@ -1,10 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import Radio from '@material-ui/core/Radio';
 import Paper from '@material-ui/core/Paper';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import { db } from "../firebase"
@@ -49,28 +45,28 @@ export default function GridCategorias(props) {
 
   const productoDB = [1,2]
 
-  const [producto,setProducto] = useState({});
-
-  const arreglo = []
+  const [arreglo, setArreglo] = useState([])
   
   useEffect(() => {
 
     const getProductos = async () => {
+      const array = []
       const querySnapshot = await db.collection(`categoria/${categoria}/polera`).get();
       querySnapshot.forEach(doc =>{
         const prod = doc.data()
-        arreglo.push(prod)
+        array.push(prod)
       })
-      setProducto(arreglo)
+      console.log(querySnapshot)
+      setArreglo(array)
+      
     } 
     
     getProductos()
     
-    
-
   },[]);
 
-  console.log(producto)
+/*   console.log(arreglo) */
+
 
   return (
     <Grid container className={classes.root} spacing={2}>
