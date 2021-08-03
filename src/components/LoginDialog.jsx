@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { ingresarUsuarioGoogle, IniciarSesion } from '../redux/usuario';
 import { withRouter } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import IconButton from '@material-ui/core/IconButton'
 import { IngresarUsuarioFacebook } from '../redux/usuario';
 import { useState } from 'react';

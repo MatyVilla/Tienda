@@ -1,9 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import {NavLink,Switch,Route} from 'react-router-dom'
+import { NavLink, Switch, Route } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper';
 import GridProductos from "./GridProductos"
+import { useDispatch } from 'react-redux';
+import { buscarProducto } from '../redux/producto';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,21 +24,25 @@ const useStyles = makeStyles((theme) => ({
     width: 128,
     height: 128,
   },
-  
+
 }));
 
 //Traer de BD
-const categorias = ["hombre","mujer","niño"]
+const categorias = ["hombre", "mujer", "niño"]
 
 export default function GridCategorias() {
   const [spacing, setSpacing] = React.useState(2);
   const classes = useStyles();
+  const dispatch = useDispatch()
 
   const handleChange = (event) => {
     setSpacing(Number(event.target.value));
   };
-
-  const [categoria,setCategoria] = React.useState("hombre");
+  const seleccionarCategoria = (value) => {
+    setCategoria(value)
+    dispatch(buscarProducto(value))
+  }
+  const [categoria, setCategoria] = React.useState("hombre");
 
   return (
     <Grid container className={classes.root} spacing={2}>
@@ -44,9 +50,9 @@ export default function GridCategorias() {
         <Grid container justifyContent="center" spacing={spacing}>
           {categorias.map((value) => (
             <Grid key={value} item>
-              <Paper className={classes.paper} >  
-                <NavLink className={classes.btnBase} onClick={() => setCategoria(value)} to="/productos" >
-                    {value}
+              <Paper className={classes.paper} >
+                <NavLink className={classes.btnBase} onClick={() => seleccionarCategoria(value)} to="/productos" >
+                  {value}
                 </NavLink>
               </Paper>
             </Grid>
@@ -55,7 +61,7 @@ export default function GridCategorias() {
       </Grid>
       <Switch>
         <Route path="/productos">
-          <GridProductos cat={categoria}/>
+          <GridProductos cat={categoria} />
         </Route>
       </Switch>
     </Grid>
