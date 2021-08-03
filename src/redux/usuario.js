@@ -64,7 +64,7 @@ export const RegistrarUsuario = (email, pass, nombre, apellido) => async (dispat
             nombre: nombre,
             apellido: apellido
         }
-        if(res.user.emailVerified ===false){
+        if (res.user.emailVerified === false) {
             await app.auth().currentUser.sendEmailVerification()
         }
         console.log(res.user)
@@ -149,6 +149,50 @@ export const cerrarSesion = () => (dispatch) => {
         type: CERRAR_SESION
     })
 }
+
+
+
+
+/* const categoria = {
+    hombre: {
+        polera: {
+            sdjkashas: {
+                nombre:'polera1',
+                detalle: 'es linda',
+                talla: {
+                    xl: {
+
+                        stock: true
+                    },
+                    L: {
+                        stock: false
+                    }
+                }
+            }
+        },
+        jeans: {
+
+        }
+    },
+    mujer: {
+        polera: {
+
+        }
+    }
+} */
+/* const productos ={
+    jean_cafe:{
+        sexo:'hombre',
+        nombre:'jean cafe claro',
+        detalle:'fea la wea',
+        tipo:'pantalon',
+        talla:{
+            xl:{
+                stock:'32',
+            }
+        }
+    },
+} */
 
 
 
